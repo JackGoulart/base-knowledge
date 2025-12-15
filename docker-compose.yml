@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: base-knowledge-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: base_knowledge
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - base-knowledge-network
+
+  document-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.document-service
+    container_name: base-knowledge-document-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/base_knowledge
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8008:8008"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./shared:/app/shared
+      - ./document-service:/app/document-service
+    networks:
+      - base-knowledge-network
+    restart: unless-stopped
+
+  chat-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.chat-service
+    container_name: base-knowledge-chat-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/base_knowledge
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DOCUMENT_SERVICE_URL=http://document-service:8008
+    ports:
+      - "8009:8009"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      document-service:
+        condition: service_started
+    volumes:
+      - ./shared:/app/shared
+      - ./chat-service:/app/chat-service
+    networks:
+      - base-knowledge-network
+    restart: unless-stopped
+
+networks:
+  base-knowledge-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+

@@ -1,0 +1,23 @@
+FROM python:3.12
+
+WORKDIR /app
+
+# Copy dependency files
+COPY pyproject.toml ./
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir .
+
+# Copy shared module and chat service code
+COPY shared/ ./shared/
+COPY chat-service/ ./chat-service/
+
+# Set working directory to chat-service
+WORKDIR /app/chat-service
+
+# Expose port
+EXPOSE 8009
+
+# Run the service
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8009"]

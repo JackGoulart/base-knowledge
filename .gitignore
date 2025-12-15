@@ -1,0 +1,73 @@
+# --- General Python Files ---
+# Compiled python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+# Distribution / packaging
+.Python
+build/
+dist/
+develop-eggs/
+eggs/
+# Installer logs
+*.log
+# Documentation
+docs/build/
+
+# --- Operating System/Editor Files ---
+# Backup files
+*~
+# Windows
+Thumbs.db
+ehthumbs.db
+# macOS
+.DS_Store
+# Linux
+*.swp
+# VS Code
+.vscode/
+
+# --- Virtual Environments (Crucial!) ---
+# Common names for virtual environment folders
+venv/
+env/
+.venv/
+.env/
+# Pip installed packages
+lib/
+include/
+bin/
+local/
+
+# --- Environment & Configuration Files (Security/Local Configuration) ---
+# Usually contains secrets, database configuration, etc.
+.env
+*.env
+.flaskenv
+# Sensitive configuration files (adjust if you use a different name)
+config.yaml
+config.json
+secrets.yaml
+
+# --- Testing / Coverage ---
+.coverage
+.tox/
+htmlcov/
+.pytest_cache/
+
+# --- IDE Files (PyCharm, etc.) ---
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# --- Jupyter/IPython Notebook Files (If applicable) ---
+.ipynb_checkpoints
+
+# --- Docker ---
+# Ignore files related to Docker build context and temporary files
+.dockerignore
+!docker-compose.yml
+!Dockerfile
