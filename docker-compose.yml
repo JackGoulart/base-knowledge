@@ -27,9 +27,10 @@ services:
       context: .
       dockerfile: Dockerfile.document-service
     container_name: base-knowledge-document-service
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/base_knowledge
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
     ports:
       - "8008:8008"
     depends_on:
@@ -47,9 +48,10 @@ services:
       context: .
       dockerfile: Dockerfile.chat-service
     container_name: base-knowledge-chat-service
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/base_knowledge
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
       - DOCUMENT_SERVICE_URL=http://document-service:8008
     ports:
       - "8009:8009"

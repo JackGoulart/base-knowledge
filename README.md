@@ -33,11 +33,11 @@ Service   Service
 ```bash
 # 1. Configurar variáveis de ambiente
 # Para OpenAI padrão:
-cp .env.example .env
+cp env.example .env
 # Edite .env e adicione sua OPENAI_API_KEY
 
 # Para Azure OpenAI:
-cp .env.azure.example .env
+cp env.azure.example .env
 # Edite .env e configure as variáveis do Azure
 
 # 2. Iniciar todos os serviços
@@ -55,10 +55,10 @@ uv sync
 
 # 2. Configurar .env
 # Para OpenAI padrão:
-cp .env.example .env
+cp env.example .env
 
 # Para Azure OpenAI:
-cp .env.azure.example .env
+cp env.azure.example .env
 
 # Edite o arquivo .env com suas credenciais
 
@@ -132,3 +132,8 @@ base-knowledge/
 ### 4. APIs Doc
 Acesse `http://localhost:8009/docs` para API chat 
 Acesse `http://localhost:8008/docs` para API Documentos 
+
+
+
+OBS: O Projeto foi testado via API OpenAI não foi testado com AzureOpenAI services
+
